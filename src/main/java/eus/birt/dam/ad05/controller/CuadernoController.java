@@ -23,16 +23,20 @@ public class CuadernoController {
 		this.cuadernoService = cuadernoService;
 	}
 
+	// ------- LISTAR --------
 	// Read: listar todos los cuadernos
 	@GetMapping
 	public String list(Model model) {
+		// anadimos cuadernos al modelo para la vista
 		model.addAttribute("cuadernos", cuadernoService.listar());
 		return "cuadernos/list";
 	}
 
+	// ------- CREAR --------
 	// Create (paso 1/2): mostrar el formulario de alta vacio (GET)
 	@GetMapping("/nuevo")
 	public String newCuaderno(Model model) {
+		// anadimos cuaderno vacio al modelo para la vista
 		model.addAttribute("cuaderno", new Cuaderno());
 		return "cuadernos/form";
 	}
@@ -43,15 +47,19 @@ public class CuadernoController {
 		if (result.hasErrors()) {
 			return "cuadernos/form";
 		}
+		// creamos el cuaderno nuevo
 		cuadernoService.crear(cuaderno);
 		return "redirect:/cuadernos";
 	}
 
+	// ------- EDITAR --------
 	// Update (paso 1/2): mostrar el formulario con los datos actuales (GET)
 	@GetMapping("/{id}/editar")
 	public String editForm(@PathVariable Long id, Model model) {
+		// buscamos el cuaderno a editar por su id
 		Cuaderno cuaderno = cuadernoService.buscarPorId(id)
 				.orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + id));
+		// anadimos cuaderno al modelo para la vista
 		model.addAttribute("cuaderno", cuaderno);
 		return "cuadernos/form";
 	}
@@ -66,6 +74,7 @@ public class CuadernoController {
 		return "redirect:/cuadernos";
 	}
 
+	// ------- ELIMINAR --------
 	// Delete: eliminar un cuaderno (y sus notas, por cascada)
 	@PostMapping("/{id}/eliminar")
 	public String delete(@PathVariable Long id) {
