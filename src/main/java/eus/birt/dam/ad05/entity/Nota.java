@@ -33,7 +33,7 @@ public class Nota {
 
 	// Constructores
 
-	protected Nota() {
+	public Nota() {
 	}
 
 	public Nota(String titulo, String contenido, LocalDate fecha, Cuaderno cuaderno) {

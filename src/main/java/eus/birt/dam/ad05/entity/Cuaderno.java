@@ -16,7 +16,7 @@ public class Cuaderno {
 	private Long id;
 
 	@NotBlank(message = "El titulo es obligatorio")
-	@Size(max = 150, message = "El titulo no puede superar los 150 caracteres")
+	@Size(max = 100, message = "El titulo no puede superar los 100 caracteres")
 	@Column(name = "titulo", length = 100, nullable = false)
 	private String titulo;
 
@@ -30,7 +30,7 @@ public class Cuaderno {
 
 	// Constructores
 
-	protected Cuaderno() {
+	public Cuaderno() {
 	}
 
 	public Cuaderno(String titulo, String materia) {
