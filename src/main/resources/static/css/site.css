@@ -1,0 +1,35 @@
+body {
+    min-height: 100vh;
+}
+
+.navbar-brand i {
+    color: #9fc2f2;
+}
+
+.card {
+    border-radius: .75rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, .1) !important;
+}
+
+.btn {
+    border-radius: .5rem;
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #2E5C99;
+    box-shadow: 0 0 0 .25rem rgba(46, 92, 153, .15);
+}
+
+.invalid-feedback {
+    font-size: .875rem;
+}
