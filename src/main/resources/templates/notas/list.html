@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mis notas')}"></head>
+<body class="bg-light">
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main class="container pb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0" th:text="${cuadernoFiltro != null} ? 'Notas de ' + ${cuadernoFiltro.titulo} : 'Mis notas'">Mis notas</h1>
+        <a class="btn btn-primary" th:href="@{/notas/nueva}">
+            <i class="bi bi-plus-lg me-1"></i>Nueva nota
+        </a>
+    </div>
+
+    <div th:if="${cuadernoFiltro != null}" class="alert alert-light border d-flex justify-content-between align-items-center">
+        <span>Mostrando solo las notas de este cuaderno.</span>
+        <a class="btn btn-sm btn-outline-secondary" th:href="@{/notas}">Ver todas las notas</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(notas)}" class="alert alert-secondary">
+        Todavia no tienes ninguna nota. Crea la primera con el boton de arriba.
+    </div>
+
+    <div class="list-group">
+        <div class="list-group-item py-3" th:each="nota : ${notas}">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="me-3">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <h5 class="mb-0" th:text="${nota.titulo}">Titulo de la nota</h5>
+                        <span class="badge text-bg-primary" th:text="${nota.cuaderno.titulo}">Cuaderno</span>
+                        <span class="badge text-bg-light border" th:text="${#temporals.format(nota.fecha, 'dd/MM/yyyy')}">01/01/2026</span>
+                    </div>
+                    <p class="mb-0 text-secondary" th:text="${#strings.abbreviate(nota.contenido, 140)}">Contenido de la nota...</p>
+                </div>
+                <div class="btn-group flex-shrink-0" role="group">
+                    <a class="btn btn-sm btn-outline-primary" title="Editar"
+                       th:href="@{/notas/{id}/editar(id=${nota.id})}">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <form th:action="@{/notas/{id}/eliminar(id=${nota.id})}"
+                          method="post" class="d-inline"
+                          onsubmit="return confirm('Eliminar esta nota?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

@@ -14,6 +14,8 @@
         </a>
     </div>
 
+    <div th:if="${mensaje != null}" class="alert alert-info" th:text="${mensaje}"></div>
+
     <div th:if="${#lists.isEmpty(cuadernos)}" class="alert alert-secondary">
         Todavia no tienes ningun cuaderno. Crea el primero con el boton de arriba.
     </div>
@@ -26,7 +28,7 @@
                     <h6 class="card-subtitle text-muted" th:text="${cuaderno.materia}">Materia</h6>
                 </div>
                 <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3">
-                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/cuadernos/{id}/notas(id=${cuaderno.id})}">
+                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/notas(cuadernoId=${cuaderno.id})}">
                         <i class="bi bi-journal-text me-1"></i>Notas
                     </a>
                     <div class="btn-group" role="group">

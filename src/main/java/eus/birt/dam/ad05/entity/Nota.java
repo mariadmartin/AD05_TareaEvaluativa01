@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "nota")
 public class Nota {
@@ -24,6 +26,7 @@ public class Nota {
 	private String contenido;
 
 	@NotNull(message = "La fecha es obligatoria")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 

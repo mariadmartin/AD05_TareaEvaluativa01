@@ -22,7 +22,12 @@ public class NotaService {
 		this.cuadernoRepository = cuadernoRepository;
 	}
 
-	// Listar las notas de un cuaderno concreto
+	// Listar todas las notas (de todos los cuadernos)
+	public List<Nota> listar() {
+		return notaRepository.findAll();
+	}
+
+	// Listar solo las notas de un cuaderno concreto (filtro del listado)
 	public List<Nota> listarPorCuaderno(Long cuadernoId) {
 		return notaRepository.findByCuadernoId(cuadernoId);
 	}
