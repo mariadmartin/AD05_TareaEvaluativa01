@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('No encontrado')}"></head>
+<body class="bg-light">
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main class="container pb-5" style="max-width: 640px;">
+
+    <div class="text-center py-5">
+        <i class="bi bi-journal-x" style="font-size: 3rem; color: #adb5bd;"></i>
+        <h1 class="h3 mt-3 mb-2">No se ha encontrado lo que buscabas</h1>
+        <p class="text-secondary" th:text="${mensaje}">El recurso solicitado no existe.</p>
+        <a class="btn btn-primary mt-3" th:href="@{/cuadernos}">
+            <i class="bi bi-house-door me-1"></i>Volver al inicio
+        </a>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import eus.birt.dam.ad05.entity.Cuaderno;
+import eus.birt.dam.ad05.exception.RecursoNoEncontradoException;
 import eus.birt.dam.ad05.repository.CuadernoRepository;
 
 @Service
@@ -35,7 +36,8 @@ public class CuadernoService {
 
 	// Actualizar un cuaderno existente
 	public Cuaderno actualizar(Long id, Cuaderno datos) {
-		Cuaderno cuaderno = buscarPorId(id).orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + id));
+		Cuaderno cuaderno = buscarPorId(id)
+				.orElseThrow(() -> new RecursoNoEncontradoException("Cuaderno no encontrado: " + id));
 		cuaderno.setTitulo(datos.getTitulo());
 		cuaderno.setMateria(datos.getMateria());
 

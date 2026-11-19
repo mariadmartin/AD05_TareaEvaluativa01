@@ -39,12 +39,34 @@
                        th:href="@{/notas/{id}/editar(id=${nota.id})}">
                         <i class="bi bi-pencil-fill"></i>
                     </a>
-                    <form th:action="@{/notas/{id}/eliminar(id=${nota.id})}"
-                          method="post" class="d-inline"
-                          onsubmit="return confirm('Eliminar esta nota?');">
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"
+                            data-bs-toggle="modal" data-bs-target="#modalEliminarNota"
+                            th:data-url="@{/notas/{id}/eliminar(id=${nota.id})}"
+                            th:data-titulo="${nota.titulo}">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEliminarNota" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar nota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        ¿Seguro que quieres eliminar la nota
+                        <strong id="modalEliminarNotaTitulo"></strong>? Esta accion no se puede deshacer.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="formEliminarNota" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </div>
             </div>
@@ -54,6 +76,14 @@
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script>
+    document.getElementById('modalEliminarNota').addEventListener('show.bs.modal', function (evento) {
+        var boton = evento.relatedTarget;
+        document.getElementById('formEliminarNota').setAttribute('action', boton.getAttribute('data-url'));
+        document.getElementById('modalEliminarNotaTitulo').textContent = boton.getAttribute('data-titulo');
+    });
+</script>
 
 </body>
 </html>

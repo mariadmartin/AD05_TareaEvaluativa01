@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import eus.birt.dam.ad05.entity.Cuaderno;
+import eus.birt.dam.ad05.exception.RecursoNoEncontradoException;
 import eus.birt.dam.ad05.service.CuadernoService;
 import jakarta.validation.Valid;
 
@@ -58,7 +59,7 @@ public class CuadernoController {
 	public String editForm(@PathVariable Long id, Model model) {
 		// buscamos el cuaderno a editar por su id
 		Cuaderno cuaderno = cuadernoService.buscarPorId(id)
-				.orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + id));
+				.orElseThrow(() -> new RecursoNoEncontradoException("Cuaderno no encontrado: " + id));
 		// anadimos cuaderno al modelo para la vista
 		model.addAttribute("cuaderno", cuaderno);
 		return "cuadernos/form";

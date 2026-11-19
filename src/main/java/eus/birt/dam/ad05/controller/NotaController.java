@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import eus.birt.dam.ad05.entity.Cuaderno;
 import eus.birt.dam.ad05.entity.Nota;
+import eus.birt.dam.ad05.exception.RecursoNoEncontradoException;
 import eus.birt.dam.ad05.service.CuadernoService;
 import eus.birt.dam.ad05.service.NotaService;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class NotaController {
 	public String list(@RequestParam(required = false) Long cuadernoId, Model model) {
 		if (cuadernoId != null) {
 			Cuaderno cuaderno = cuadernoService.buscarPorId(cuadernoId)
-					.orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + cuadernoId));
+					.orElseThrow(() -> new RecursoNoEncontradoException("Cuaderno no encontrado: " + cuadernoId));
 			model.addAttribute("notas", notaService.listarPorCuaderno(cuadernoId));
 			model.addAttribute("cuadernoFiltro", cuaderno);
 		} else {
@@ -89,7 +90,8 @@ public class NotaController {
 	@GetMapping("/{id}/editar")
 	public String editForm(@PathVariable Long id, Model model) {
 		// buscamos la nota a editar por su id
-		Nota nota = notaService.buscarPorId(id).orElseThrow(() -> new RuntimeException("Nota no encontrada: " + id));
+		Nota nota = notaService.buscarPorId(id)
+				.orElseThrow(() -> new RecursoNoEncontradoException("Nota no encontrada: " + id));
 		// anadimos nota, la lista de cuadernos (para el select) y el cuaderno actual al modelo
 		model.addAttribute("nota", nota);
 		model.addAttribute("cuadernos", cuadernoService.listar());

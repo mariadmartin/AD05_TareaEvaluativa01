@@ -36,13 +36,37 @@
                            th:href="@{/cuadernos/{id}/editar(id=${cuaderno.id})}">
                             <i class="bi bi-pencil-fill"></i>
                         </a>
-                        <form th:action="@{/cuadernos/{id}/eliminar(id=${cuaderno.id})}" method="post"
-                              class="d-inline" onsubmit="return confirm('Eliminar este cuaderno y todas sus notas?');">
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"
+                                data-bs-toggle="modal" data-bs-target="#modalEliminarCuaderno"
+                                th:data-url="@{/cuadernos/{id}/eliminar(id=${cuaderno.id})}"
+                                th:data-titulo="${cuaderno.titulo}">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEliminarCuaderno" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar cuaderno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        ¿Seguro que quieres eliminar el cuaderno
+                        <strong id="modalEliminarCuadernoTitulo"></strong>?
+                        Se eliminaran tambien <strong>todas sus notas</strong>. Esta accion no se puede deshacer.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="formEliminarCuaderno" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -51,6 +75,14 @@
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script>
+    document.getElementById('modalEliminarCuaderno').addEventListener('show.bs.modal', function (evento) {
+        var boton = evento.relatedTarget;
+        document.getElementById('formEliminarCuaderno').setAttribute('action', boton.getAttribute('data-url'));
+        document.getElementById('modalEliminarCuadernoTitulo').textContent = boton.getAttribute('data-titulo');
+    });
+</script>
 
 </body>
 </html>

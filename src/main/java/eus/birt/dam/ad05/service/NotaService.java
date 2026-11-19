@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import eus.birt.dam.ad05.entity.Cuaderno;
 import eus.birt.dam.ad05.entity.Nota;
+import eus.birt.dam.ad05.exception.RecursoNoEncontradoException;
 import eus.birt.dam.ad05.repository.CuadernoRepository;
 import eus.birt.dam.ad05.repository.NotaRepository;
 
@@ -40,16 +41,17 @@ public class NotaService {
 	// Crear una nota nueva, asociada a un cuaderno
 	public Nota crear(Nota nota, Long cuadernoId) {
 		Cuaderno cuaderno = cuadernoRepository.findById(cuadernoId)
-				.orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + cuadernoId));
+				.orElseThrow(() -> new RecursoNoEncontradoException("Cuaderno no encontrado: " + cuadernoId));
 		nota.setCuaderno(cuaderno);
 		return notaRepository.save(nota);
 	}
 
 	// Actualizar una nota existente (incluye posible cambio de cuaderno)
 	public Nota actualizar(Long id, Nota datos, Long cuadernoId) {
-		Nota nota = buscarPorId(id).orElseThrow(() -> new RuntimeException("Nota no encontrada: " + id));
+		Nota nota = buscarPorId(id)
+				.orElseThrow(() -> new RecursoNoEncontradoException("Nota no encontrada: " + id));
 		Cuaderno cuaderno = cuadernoRepository.findById(cuadernoId)
-				.orElseThrow(() -> new RuntimeException("Cuaderno no encontrado: " + cuadernoId));
+				.orElseThrow(() -> new RecursoNoEncontradoException("Cuaderno no encontrado: " + cuadernoId));
 
 		nota.setTitulo(datos.getTitulo());
 		nota.setContenido(datos.getContenido());
